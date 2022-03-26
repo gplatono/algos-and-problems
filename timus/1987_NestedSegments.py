@@ -49,9 +49,10 @@ def add(segments, stack, seg):
 			seg_size += 1
 		if right is not None:
 			stack[top] = right
-		top += 1
+			top += 1
 		stack[top] = seg		
-	#print (seg, segments, stack, top, seg_size)
+	# print ("SEG" , segments)
+	# print("STACK", stack)
 
 n = int(input())
 orig = [0]*n
