@@ -1,13 +1,11 @@
-from typing import *
+"""
+Custom library of string algorithms. Written for practice and learning.
 
-substr_search_tests = [
-    {'input': ("aba", "aaaba"), 'result': 2},
-    {'input': ("who", "I saw who did that"), 'result': 6},
-    {'input': ("where", "I saw who did that"), 'result': -1},
-    {'input': ("that", "I saw that you did that"), 'result': 6},
-    {'input': ("a", "bcda"), 'result': 3},
-    {'input': ("b", "bbbbbb"), 'result': 0}
-    ]
+G. Platonov
+11/3/2021
+"""
+
+from typing import *
 
 class Trie:
     def __init__(self, prefix):
@@ -23,7 +21,41 @@ class Trie:
             if self.children[first] is not None:
                 self.children[first].add(prefix[1:])
             else:
-                
+                pass
+
+class StringDistance:
+    lev_lookup = []
+
+    def levenshtein_edit_distance(a, b):
+        """
+        Initializes the DP lookup table and computes LED.
+        """
+
+        StringDistance.lev_lookup = [[-1] * (len(b)+1) for _ in range(len(a)+1)]
+        return StringDistance.led(a, b)
+        
+    def led(a, b):
+        if StringDistance.lev_lookup[len(a)][len(b)] == -1:
+            if len(a) == 0 or len(b) == 0:
+                StringDistance.lev_lookup[len(a)][len(b)] = max(len(a), len(b))
+            elif a[0] == b[0]:
+                StringDistance.lev_lookup[len(a)][len(b)] = StringDistance.led(a[1:], b[1:])
+            else:
+                StringDistance.lev_lookup[len(a)][len(b)] = 1 + min(StringDistance.led(a[1:], b[1:]), 
+                                                                    min(StringDistance.led(a, b[1:]), 
+                                                                        StringDistance.led(a[1:], b)))
+        return StringDistance.lev_lookup[len(a)][len(b)]
+
+    def hamming_distance(a, b):
+        """
+        Computes Hamming distance between a and b.
+        """
+
+        if (len(a) != len(b)):
+            raise ValueError("Error: Arguments must have the same length.")
+        return sum(a_i != b_i for a_i, b_i in zip(a, b))
+
+
 
 def prefix_function(s: str) -> List[int]:
     """
@@ -72,13 +104,3 @@ def kmp(p: str, s:str) -> int:
 def shortest_palindrome_completion(s: str) -> str:
     s1 = s.reverse()
     total = s1 + s
-
-
-def test_func(func, tests):
-    for test in tests:
-        result = func(*test['input'])
-        print ("Test number " + str(tests.index(test)+1) + ":")
-        print ("Input: " + str(test["input"]))
-        print ("Expected result: " + str(test["result"]) + "; Produced result: " + str(result) + "\n")        
-
-test_func(kmp, substr_search_tests)

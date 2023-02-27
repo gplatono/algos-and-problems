@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.vscode/tasks.json
+codeforces/a.out
+codeforces/a.exe
+codeforces/libstdc++-6.dll
