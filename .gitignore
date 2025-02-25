@@ -131,3 +131,6 @@ dmypy.json
 codeforces/a.out
 codeforces/a.exe
 codeforces/libstdc++-6.dll
+
+.vscode
+/codeforces/.vscode
