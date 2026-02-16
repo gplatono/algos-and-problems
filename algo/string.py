@@ -104,3 +104,27 @@ def kmp(p: str, s:str) -> int:
 def shortest_palindrome_completion(s: str) -> str:
     s1 = s.reverse()
     total = s1 + s
+
+def manacher(s: str) -> List[int]:
+    """
+    Compute and return the list of Manacher values for the input string s.
+    """
+    s = '$#' + '#'.join(s) + '#^'
+    n = len(s)
+    l, r = 0, 1
+    p = [0]*n
+    for i in range(1, n-1):
+        if i < r:
+            p[i] = min(r - i, p[l + r - i])
+        while s[i + p[i]] == s[i - p[i]]:
+            p[i] += 1
+        if i + p[i] > r:
+            l = i - p[i]
+            r = i + p[i]
+    
+    return p
+
+print('abacaba', manacher('abacaba'))
+print('eracecare', manacher('eracecare'))
+print('abba', manacher('abba'))
+print('abbarabba', manacher('abbarabba'))
