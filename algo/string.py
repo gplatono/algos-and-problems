@@ -111,18 +111,18 @@ def manacher(s: str) -> List[int]:
     """
     s = '$#' + '#'.join(s) + '#^'
     n = len(s)
-    l, r = 0, 1
+    c = r = 0
     p = [0]*n
     for i in range(1, n-1):
         if i < r:
-            p[i] = min(r - i, p[l + r - i])
-        while s[i + p[i]] == s[i - p[i]]:
+            p[i] = min(r - i, p[2*c - i])
+        while s[i + p[i] + 1] == s[i - p[i] - 1]:
             p[i] += 1
         if i + p[i] > r:
-            l = i - p[i]
+            c = i
             r = i + p[i]
     
-    return p
+    return p[1:-1]
 
 print('abacaba', manacher('abacaba'))
 print('eracecare', manacher('eracecare'))
